@@ -64,6 +64,8 @@ function main(args) {
             });
         } else if (type == "normal") {
             ace();
+        } else if (type == "shrink") {
+            ace_shrink();
         } else if (type == "demo") {
             demo();
         } else if (type == "bm") {
@@ -155,10 +157,45 @@ function ace() {
         source: ACE_HOME + "/ChangeLog.txt",
         dest:   BUILD_DIR + "/ChangeLog.txt"
     });
-    
+
     return project;
 }
 
+
+
+
+function ace_shrink() {
+    console.log('# ace ---------');
+
+
+    // compressed
+    var project = buildAce({
+        compress: false,
+        noconflict: false,
+        shrinkwrap:true,
+        themes: ["monokai"],
+        modes: ["python", "python_highlight_rules"],
+        workers: [],
+
+    });
+
+    console.log('# ace License | Readme | Changelog ---------');
+
+    copy({
+        source: ACE_HOME + "/build_support/editor.html",
+        dest:   BUILD_DIR + "/editor.html"
+    });
+    copy({
+        source: ACE_HOME + "/LICENSE",
+        dest:   BUILD_DIR + "/LICENSE"
+    });
+    copy({
+        source: ACE_HOME + "/ChangeLog.txt",
+        dest:   BUILD_DIR + "/ChangeLog.txt"
+    });
+
+    return project;
+}
 function demo(project) {
     project = project || buildAce({
         compress: false,
@@ -211,7 +248,7 @@ function demo(project) {
     });
 
     var demo = copy.createDataObject();
-    
+
     project.assumeAllFilesLoaded();
     copy({
         source: [{
@@ -335,7 +372,7 @@ var buildAce = function(options) {
         filter: [ copy.filter.moduleDefines ],
         dest: ace
     });
-    
+
     if (options.coreOnly)
         return project;
 
@@ -445,7 +482,7 @@ var buildAce = function(options) {
           dest: BUILD_DIR + '/ace-min.js'
         });
     }
-    
+
     return project;
 };
 
