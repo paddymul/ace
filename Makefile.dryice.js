@@ -170,7 +170,7 @@ function ace_shrink() {
 
     // compressed
     var project = buildAce({
-        compress: false,
+        compress: true,
         noconflict: false,
         shrinkwrap:true,
         themes: ["monokai"],
